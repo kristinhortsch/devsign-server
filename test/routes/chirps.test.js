@@ -4,9 +4,19 @@ const request = require('supertest');
 const app = require('../../lib/app');
 const mongoose = require('mongoose');
 const seedData = require('../seedData');
+const Chirp = require('../../lib/models/Chirp');
 
 jest.mock('../../lib/services/auth.js');
 jest.mock('../../lib/middleware/ensureAuth.js');
+
+const createChirp = (user) => {
+  return Chirp
+    .create({
+      text: 'hello there',
+      user
+    })
+    .then(res => res.body);
+};
 
 describe('chirp model', () => {
   beforeEach(() => {
@@ -27,6 +37,24 @@ describe('chirp model', () => {
       .get('/chirps')
       .then(res => {
         expect(res.body).toHaveLength(100);
+      });
+  });
+
+  it('gets a list of all chirps from a user', () => {
+    const users = ['1234', '1234', '1234', '1222', '0000'];
+    return Promise.all(users.map(createChirp))
+      .then(() => {
+        return request(app)
+          .get('/chirps/users/0000')
+          .then (res => {
+            expect(res.body).toHaveLength(1);
+            expect(res.body).toEqual([{
+              __v: 0,
+              _id: expect.any(String),
+              text: 'hello there',
+              user: '0000'
+            }]);
+          });
       });
   });
 
