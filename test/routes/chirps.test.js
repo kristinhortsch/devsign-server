@@ -1,7 +1,7 @@
 require('dotenv').config();
+require('../../lib/utils/connect')();
 const request = require('supertest');
 const app = require('../../lib/app');
-const connect = require('../../lib/utils/connect');
 const mongoose = require('mongoose');
 const seedData = require('../seedData');
 
@@ -9,13 +9,13 @@ jest.mock('../../lib/services/auth.js');
 jest.mock('../../lib/middleware/ensureAuth.js');
 
 describe('chirp model', () => {
-  beforeAll(() => {
-    connect();
+  beforeEach(() => {
+    return seedData();
   });
 
-  beforeEach(done => {
+  afterEach(done => {
     mongoose.connection.dropDatabase(done);
-    return seedData();
+    
   });
 
   afterAll(done => {
@@ -27,6 +27,22 @@ describe('chirp model', () => {
       .get('/chirps')
       .then(res => {
         expect(res.body).toHaveLength(100);
+      });
+  });
+
+  it('posts a chirp', () => {
+    return request(app)
+      .post('/chirps')
+      .send({
+        text: 'this is my chirp'
+      })
+      .then(res => {
+        expect(res.body).toEqual({
+          __v: 0,
+          user: '1234',
+          _id: expect.any(String),
+          text: 'this is my chirp'
+        });
       });
   });
 });
