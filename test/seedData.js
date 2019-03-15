@@ -6,7 +6,7 @@ const seedData = () => {
     [...Array(100)].map(() => {
       return Chirp.create({
         text: chance.sentence(),
-        user: chance.name()
+        user: 'google-oauth2|102356666328752319799'
       });
     })
   );
