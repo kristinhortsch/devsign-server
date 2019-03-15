@@ -45,4 +45,24 @@ describe('chirp model', () => {
         });
       });
   });
+
+  it('deletes a chirp', () => {
+    return request(app)
+      .post('/chirps')
+      .send({
+        text: 'the chirp that will be deleted'
+      })
+      .then(res => {
+        return request(app)
+          .delete(`/chirps/${res.body._id}`)
+          .then(res => {
+            expect(res.body).toEqual({
+              __v: 0,
+              user: '1234',
+              _id: expect.any(String),
+              text: 'the chirp that will be deleted'
+            });
+          });
+      });
+  });
 });
