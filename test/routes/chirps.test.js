@@ -12,7 +12,7 @@ jest.mock('../../lib/middleware/ensureAuth.js');
 const createChirp = (user) => {
   return Chirp
     .create({
-      text: 'hello there',
+      chirp: 'hello there',
       user
     })
     .then(res => res.body);
@@ -51,7 +51,7 @@ describe('chirp model', () => {
             expect(res.body).toEqual([{
               __v: 0,
               _id: expect.any(String),
-              text: 'hello there',
+              chirp: 'hello there',
               user: '0000'
             }]);
           });
@@ -62,14 +62,14 @@ describe('chirp model', () => {
     return request(app)
       .post('/chirps')
       .send({
-        text: 'this is my chirp'
+        chirp: 'this is my chirp'
       })
       .then(res => {
         expect(res.body).toEqual({
           __v: 0,
           user: '1234',
           _id: expect.any(String),
-          text: 'this is my chirp'
+          chirp: 'this is my chirp'
         });
       });
   });
@@ -78,7 +78,7 @@ describe('chirp model', () => {
     return request(app)
       .post('/chirps')
       .send({
-        text: 'the chirp that will be deleted'
+        chirp: 'the chirp that will be deleted'
       })
       .then(res => {
         return request(app)
@@ -88,7 +88,7 @@ describe('chirp model', () => {
               __v: 0,
               user: '1234',
               _id: expect.any(String),
-              text: 'the chirp that will be deleted'
+              chirp: 'the chirp that will be deleted'
             });
           });
       });

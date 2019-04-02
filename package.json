@@ -6,6 +6,7 @@
   "dependencies": {
     "auth0": "^2.15.0",
     "chance": "^1.0.18",
+    "cors": "^2.8.5",
     "dotenv": "^6.2.0",
     "express": "^4.16.4",
     "express-jwt": "^5.3.1",
