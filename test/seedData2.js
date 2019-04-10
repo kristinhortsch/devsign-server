@@ -1,20 +1,20 @@
 const Chirp = require('../lib/models/Chirp');
 const { getQuote } = require('../lib/services/quotes');
 
-const seedData = () => {
+const seedData2 = () => {
   return Promise.all(
     [...Array(5)].map(() => {
       return getQuote()
         .then(quote => {
           return Chirp.create({
             chirp: quote,
-            user: 'google-oauth2|102356666328752319799'
+            user: 'auth0|5cad2cd456fc520ebfaff30a'
           });
         });
     })
   );
 };
 
-module.exports = seedData;
+module.exports = seedData2;
 
 
