@@ -25,7 +25,6 @@ describe('chirp model', () => {
 
   afterEach(done => {
     mongoose.connection.dropDatabase(done);
-    
   });
 
   afterAll(done => {
