@@ -28,7 +28,8 @@
     "start": "node server.js",
     "start:watch": "nodemon server.js",
     "seed": "node seed.js",
-    "seed2": "node seed2.js"
+    "seed2": "node seed2.js",
+    "drop": "node dropSeedData.js"
   },
   "repository": {
     "type": "git",
